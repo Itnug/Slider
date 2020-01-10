@@ -64,9 +64,16 @@ class Slider(object):
         for instruction in seq:
             self.move(instruction)
 
+
+def new_puzzle():
+    q = int(raw_input('Difficulty? (4/5/6/..)'))
+    puzzle = Slider(q)
+    print(puzzle)
+    return puzzle
+
+
 if __name__ == '__main__':
-    puzzle = Slider(4)
-    print puzzle
+    puzzle = new_puzzle()
     q = ''
     while q !='exit':
         q = raw_input("next move?")
@@ -79,9 +86,7 @@ if __name__ == '__main__':
             
                 q = raw_input('Go again?(y/n)')
                 if q.lower() == 'y':
-                    q = int(raw_input('Difficulty? (4/5/6/..)'))
-                    puzzle = Slider(q)
-                    print puzzle
+                    puzzle = new_puzzle()
                 else:
                     print 'Bye then'
                     q = 'exit'
