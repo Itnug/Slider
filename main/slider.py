@@ -4,8 +4,7 @@ Created on 22-Mar-2017
 @author: Srinivas Gunti
 '''
 import random
-
-
+        
 class Slider(object):
     UP = ['w', 'up']
     LEFT = ['a', 'left']
@@ -16,7 +15,7 @@ class Slider(object):
     
     def __init__(self, size, seed=None):
         self.size = size
-        self.grid = map(str, xrange(1,size**2))+[' ']
+        self.grid = list(map(str, range(1,size**2)))+[' ']
         self.solvedHash = self.hash()
         self.padding = len(self.grid[-2])
         self.open_pos = (size**2) - 1
@@ -36,7 +35,7 @@ class Slider(object):
     
     def scramble(self, n_moves):
         next_move = 'd'
-        for i in xrange(n_moves):
+        for i in range(n_moves):
             self.move(next_move)
             next_move = random.choice(self._markov_dict[next_move])
     
@@ -48,13 +47,13 @@ class Slider(object):
         
     def move(self, instruction):
         if instruction in self.UP:
-            if self.open_pos / self.size != self.size-1:
+            if self.open_pos // self.size != self.size-1:
                 self._swap(self.open_pos + self.size)
         if instruction in self.LEFT:
             if self.open_pos % self.size != self.size-1:
                 self._swap(self.open_pos + 1)
         if instruction in self.DOWN:
-            if self.open_pos / self.size != 0:
+            if self.open_pos // self.size != 0:
                 self._swap(self.open_pos - self.size)
         if instruction in self.RIGHT:
             if self.open_pos % self.size != 0:
@@ -66,7 +65,7 @@ class Slider(object):
 
 
 def new_puzzle():
-    q = int(raw_input('Difficulty? (4/5/6/..)'))
+    q = int(input('Difficulty? (4/5/6/..)'))
     puzzle = Slider(q)
     print(puzzle)
     return puzzle
@@ -76,21 +75,21 @@ if __name__ == '__main__':
     puzzle = new_puzzle()
     q = ''
     while q !='exit':
-        q = raw_input("next move?")
+        q = input("next move?")
         if q in puzzle.valid_moves or all(x in puzzle.valid_moves for x in q):
             for x in q:
                 puzzle.move(x)
-            print puzzle
+            print(puzzle)
             if puzzle.isSolved():
-                print '~~Yayy! You solved it!~~'
+                print('~~Yayy! You solved it!~~')
             
-                q = raw_input('Go again?(y/n)')
+                q = input('Go again?(y/n)')
                 if q.lower() == 'y':
                     puzzle = new_puzzle()
                 else:
-                    print 'Bye then'
+                    print('Bye then')
                     q = 'exit'
         elif q == 'help':
-            print 'Valid Moves:', puzzle.valid_moves
+            print('Valid Moves:', puzzle.valid_moves)
         elif q != 'exit':
-            print 'INVALID MOVE'
+            print('INVALID MOVE')
